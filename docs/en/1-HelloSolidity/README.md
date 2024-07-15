@@ -1,4 +1,4 @@
-# Introduction to Solidity 
+# Introduction to Solidity
 > Solidity is a **statically-typed, contract-oriented** programming language designed for developing smart contracts that run on the Ethereum Virtual Machine (EVM). 
 > It's used for implementing smart contracts on various blockchain platforms, most notably, Ethereum.
 
