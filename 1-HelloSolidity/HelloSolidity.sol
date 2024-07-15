@@ -14,4 +14,8 @@ contract HelloSolidity {
     function confirmOrder() public {
         buyer = payable(msg.sender);
     }
+
+    constructor(string memory _text) {
+        greeting = "Hello " + _text;
+    }
 }
