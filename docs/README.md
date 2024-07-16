@@ -34,5 +34,5 @@ For more information about this project, please refer to the documentation in yo
 
 
 ## Table of Contents
-1. [A look into Solidity](./1-HelloSolidity/README.md)
-2. [I know, but u should know this first](./2-I-know-but-u-should-know-this/README.md)
+1. [A look into Solidity](./en/1-HelloSolidity/README.md)
+2. [I know, but u should know this first](./en/2-I-know-but-u-should-know-this/README.md)
