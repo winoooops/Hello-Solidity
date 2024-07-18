@@ -3,6 +3,8 @@
 > Solidity, like TypeScript, is a statically typed language, which means variable types are declared explicitly. 
 > This is different from JavaScript, which is dynamically typed. Understanding these differences is crucial for Web2 developers transitioning to Solidity.
 
+> Keywords like `public`, `internal`, etc. will be explained in the next section.
+
 
 ## 1. Boolean
 - Solidity: `bool`

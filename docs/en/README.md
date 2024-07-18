@@ -37,3 +37,4 @@ For more information about this project, please refer to the documentation in yo
 1. [A look into Solidity](./1-HelloSolidity/README.md)
 2. [I know, but u should know this first](./2-I-know-but-u-should-know-this/README.md)
 3. [Data Types](./3-data-types/README.md)
+4. [Fun Fun Function](./4-fun-fun-function/README.md)

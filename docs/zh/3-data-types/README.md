@@ -3,6 +3,8 @@
 > Solidity，与TypeScript类似，是一种静态类型语言，这意味着变量类型需要显式声明。
 > 这与JavaScript的动态类型不同。理解这些差异对于从Web2转向Solidity开发的开发者来说至关重要。
 
+> 注意： 在本文档中涉及`public`,`internal`等的关键词将在下一个章节中详细说明。
+
 ## 1. 布尔值
 - Solidity: `bool`
 - JavaScript/TypeScript: `boolean`
