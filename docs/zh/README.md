@@ -24,3 +24,4 @@ Copy/
 
 1. [Solidity初探](./1-HelloSolidity/README.md)
 2. [我知道这些都是概念，但你真的应该了解这些](./2-I-know-but-u-should-know-this/README.md)
+3. [数据类型](./3-data-types/README.md)

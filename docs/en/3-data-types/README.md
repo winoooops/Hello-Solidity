@@ -1,11 +1,10 @@
-# Solidity Data Types: Comparison with JavaScript/TypeScript
+# Solidity Data Types: Comparison with TypeScript
 
 > Solidity, like TypeScript, is a statically typed language, which means variable types are declared explicitly. 
 > This is different from JavaScript, which is dynamically typed. Understanding these differences is crucial for Web2 developers transitioning to Solidity.
 
-## 1. Value Types
 
-### Boolean
+## 1. Boolean
 - Solidity: `bool`
 - JavaScript/TypeScript: `boolean`
 
@@ -21,13 +20,13 @@ let isActive: boolean = true;
 bool isActive = true;
 ```
 
-### Integers
+## 2. Integers
 Solidity provides two main categories of integer types:
 
 * Unsigned Integers (uint): These start from 0 and can only represent non-negative numbers.
 * Signed Integers (int): These can represent both positive and negative numbers.
 
-#### Unsigned Integers
+### Unsigned Integers
 * Range: `uint8`, `uint16`, `uint24`, ..., `uint256`
 * The upper limit is 2^n - 1, where n is the number of bits.i.e., `uint8` is ranging from 0 to 2^8 - 1.
 * All unsigned integers start from 0
@@ -38,7 +37,7 @@ uint8 maxUint8 = 255;     // Maximum value for uint8 (2^8 - 1)
 uint256 maxUint = 115792089237316195423570985008687907853269984665640564039457584007913129639935;  // Maximum value for uint256 (2^256 - 1)
 ```
 
-#### Signed Integers
+### Signed Integers
 
 * Range: `int8`, `int16`, `int24`, ..., `int256`
 * Can represent both positive and negative numbers
@@ -51,7 +50,7 @@ int256 minInt = -578960446186580977117854925043439539266349923328202820197287920
 int256 maxInt = 57896044618658097711785492504343953926634992332820282019728792003956564819967;   // Maximum value for int256 (2^255 - 1)
 ```
 
-#### Key Differences from JavaScript/TypeScript
+### Key Differences from JavaScript/TypeScript
 
 1. **Unsigned Integers**: JavaScript/TypeScript don't have native unsigned integer types. All numbers in JavaScript are double-precision 64-bit floating-point numbers.
    ```javascript
@@ -104,6 +103,7 @@ let owner: string = "0x123...";
 `address payable`: Has all the methods of address, plus:
 * `transfer(uint256 amount)`: Sends Ether to the address, throws on failure
 * `send(uint256 amount)`: Sends Ether to the address, returns bool (true on success, false on failure)
+* `call{value: amount}("")`: Low-level function to send Ether and data to an address, it's recommended to use `call` now for one will know it's success or failure.
 
 
 ```solidity
@@ -147,12 +147,24 @@ contract CollegeFund {
     }
 }
 ```
+## 3. String and Bytes
+Solidity has two types for dealing with string data: `string` and `bytes`.
 
-### Byte Arrays
-- Solidity: `bytes1` to `bytes32`, `byte[]`
-- JavaScript/TypeScript: `Uint8Array` or regular arrays
+### `string`
 
-Solidity's byte handling is more low-level:
+```solidity
+string public name = "Alice";
+```
+
+* Used for UTF-8 encoded data.
+* Dynamic size, but can be expensive to manipulate.
+* Limited built-in operations (no native concatenation or length).
+
+### `bytes`
+
+* `bytes` is similar to string but allows length and index-access operations.
+* `bytes1` to `bytes32` are fixed-size byte arrays.
+* More gas-efficient than string for certain operations.
 
 ```solidity
 // Solidity
@@ -160,13 +172,142 @@ bytes32 hash = 0x123...;
 bytes memory dynamicBytes = new bytes(10);
 ```
 
+In JavaScript/TypeScript, you often work with hex strings and convert them to byte arrays when needed.
 ```typescript
 // TypeScript
 let hash: string = "0x123...";
 let dynamicBytes: Uint8Array = new Uint8Array(10);
 ```
 
-In JavaScript/TypeScript, you often work with hex strings and convert them to byte arrays when needed.
+## 4. Arrays
 
-This covers the basic value types. The next part will cover reference types and more complex structures. Would you like me to continue with the next section?
+* Arrays in Solidity can be either fixed-size or dynamic and can contain any type, including `structs` and `mappings`.
+* *Solidity* distinguishes between storage and memory arrays; TypeScript doesn't have this concept.
+* There's gas costs associated with array operations in Solidity, so it's important to use them efficiently.
 
+> Memory arrays must have a fixed size.
+
+### Array Methods
+* `.push()`: Adds an element to the end of a dynamic array.
+* `.pop()`: Removes the last element from a dynamic array.
+* `.length`: Returns the current length of the array.
+
+### Fixed-Size Arrays
+
+```solidity
+uint[5] public fixedArray = [1, 2, 3, 4, 5];
+bytes32[3] public fixedByteArray;
+
+function memoryArray(uint[] memory _arr) public pure returns (uint[] memory) {
+    uint[] memory newArray = new uint[](5); // must specify size in memory
+    for (uint i = 0; i < 5; i++) {
+        newArray[i] = _arr[i];
+    }
+    return newArray;
+}
+
+```
+* Size is determined at declaration and cannot be changed.
+* More gas-efficient than dynamic arrays.
+* Automatically initialized with default values (0 for uint, empty bytes for bytes32, etc.).
+
+### Dynamic Arrays
+> Returning dynamic arrays from external functions is not supported in Solidity.
+> Nested dynamic arrays are not supported in Solidity
+
+```solidity
+uint[] public dynamicArray;
+bytes32[] public dynamicByteArray;
+```
+* Size can change after declaration.
+* More flexible but less gas-efficient.
+* Must be initialized before use.
+
+> If the data set is large and the length is not known in advance, consider using mappings or other data structures.
+
+
+## 5. Mappings
+> Mappings are more gas-efficient for lookups in large datasets compared to arrays.
+
+Mappings in Solidity are hash tables, which are virtually initialized such that every possible key exists and is mapped to a value.
+
+```solidity
+mapping(address => unint) public balances;
+mapping(uint => mapping(uint => bool)) public grid;
+```
+
+* Mappings in Solidity CAN'T be iterated over, and the number of keys is not stored, which means you can't check if a key exists and can't get a list of keys or values.
+* No Length or Concept of "Empty": All keys exist and return the default value if not set.
+
+```solidity
+contract MappingExample {
+    mapping(address => uint) public balances; // store the balance of each address
+    mapping(address => mapping(address => bool)) public isAllowed; // determine if an address is allowed to spend another address's funds
+
+    function updateBalance(uint newBalance) public {
+        balances[msg.sender] = newBalance;
+    }
+
+    function setAllowed(address spender) public {
+        isAllowed[msg.sender][spender] = true;
+    }
+
+    function getBalance(address account) public view returns (uint) {
+        return balances[account];
+    }
+}
+```
+
+### 6. Structs
+Structs in Solidity allow you to create custom types that group together related data.
+
+* Nesting: You can nest structs within other structs, but be cautious with circular references.
+* There's two ways of storing structs: in `memory` or in `storage`. 
+    * Storage structs are stored on the blockchain.
+    * Memory structs are temporary and exist only during function execution.
+```solidity
+contract ClientBook {
+	struct Person {
+		string name;
+		bool isVip;
+		address walletAddress;
+	}
+
+	Person[] public clients;
+
+	function addClient(string memory name, bool isVip, address walletAddress) public {
+		clients.push(Person(name, isVip, walletAddress));
+	}
+
+	function getClientInfo(address _address) public view returns (Person memory) {
+		for (uint256 i = 0; i < clients.length; i++) {
+			if (clients[i].walletAddress == _address) {
+				return clients[i];
+			}
+		}
+		return Person("", false, address(0));
+	}
+}
+```
+
+### 7. Enums
+
+* Solidity enums are often used for on-chain state management; 
+* The syntax is quite similar to TypeScript enums.
+
+```solidity
+contract BaseContract {
+	// use enum to make uint 0, 1, 2 into Pending, Active & Inactive	
+	enum State { Pending, Active, Inactive }
+
+	State public contractState;
+
+	function setState(State _state) public {
+		contractState = _state;
+	}
+
+	function getState() public view returns (State) {
+		return contractState;
+	}	
+}
+```
