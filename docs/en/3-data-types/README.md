@@ -313,3 +313,19 @@ contract BaseContract {
 	}	
 }
 ```
+
+### 8. mutable & `immutable` State Variables
+
+In Solidity, state variables can be declared as `immutable` to optimize gas costs and prevent reassignment(strengthen security). 
+There's no `mutable` keyword in Solidity, everything is mutable by default.
+
+For example, we could make sure no one can change the owner of a contract by declaring it as `immutable`.
+```solidity
+contract ImmutableExample {
+		address public immutable owner; // by making own immutable, we can't change the owner after deployment
+
+		constructor() {
+				owner = msg.sender; // once set, the owner can't be changed
+		}
+}
+```
