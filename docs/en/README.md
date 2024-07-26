@@ -38,3 +38,4 @@ For more information about this project, please refer to the documentation in yo
 2. [I know, but u should know this first](./2-I-know-but-u-should-know-this/README.md)
 3. [Data Types](./3-data-types/README.md)
 4. [Fun Fun Function](./4-fun-fun-function/README.md)
+5. [Interfaces and Abstract Contracts](./5-interfaces-and-abstrcut-contracts/README.md)

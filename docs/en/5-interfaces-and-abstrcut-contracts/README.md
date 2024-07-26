@@ -113,3 +113,6 @@ By using interfaces and abstract contracts, developers can
 * Enforce specific function signatures in implementing contracts 
 * Enable interaction with unknown contracts
 * Allow for code reuse and standardization.
+
+And if you feel like a Challenge, try to implement a more complex lending platform with collateral and liquidation features!
+My example code is in `./contracts/5/FiatLendingPlatform.sol`.

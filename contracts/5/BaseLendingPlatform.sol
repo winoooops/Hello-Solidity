@@ -7,12 +7,12 @@ abstract contract BaseLendingPlatform is ILendingPlatform {
 	mapping(address => uint256) public balances;
 	mapping(address => uint256) public borrows;
 	
-	function deposit() external payable override {
+	function deposit() public payable virtual {
 		balances[msg.sender] += msg.value;
 		emit Deposit(msg.sender, msg.value);
 	}
 	
-	function withdraw(uint256 amount) external override {
+	function withdraw(uint256 amount) public virtual {
 		require(balances[msg.sender] >= amount, "Insufficient balance");
 		balances[msg.sender] -= amount;
 		payable(msg.sender).transfer(amount);
@@ -23,7 +23,7 @@ abstract contract BaseLendingPlatform is ILendingPlatform {
 	// remember to mark this as `virtual` so that derived contracts can override it
 	function _getBorrowLimit(address user) internal view virtual returns (uint256);
 	
-	function borrow(uint256 amount) external override {
+	function borrow(uint256 amount) public virtual {
 		uint256 borrowLimit = _getBorrowLimit(msg.sender);
 		require(borrows[msg.sender] + amount <= borrowLimit, "Exceed borrow limit");
 		borrows[msg.sender] += amount;
@@ -31,7 +31,7 @@ abstract contract BaseLendingPlatform is ILendingPlatform {
 		emit Borrow(msg.sender, amount);
 	}
 	
-	function repay(uint256 amount) external payable override {
+	function repay() public payable virtual {
 		require(borrows[msg.sender] > 0, "No outstanding borrow");
 		uint256 repayAmount = msg.value > borrows[msg.sender] ? borrows[msg.sender] : msg.value;
 		emit Repay(msg.sender, repayAmount);

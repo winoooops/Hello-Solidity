@@ -70,7 +70,7 @@ int256 maxInt = 5789604461865809771178549250434395392663499233282028201972879200
    uint8 a = 5;
    int8 b = -1;
    // uint8 c = a + b;  // This would cause a compile error
-   int8 c = int8(a) + b;  // This is valid, c would be 4 
+   int8 c = int8(a) + b;  // This is valid, c would be 5 
    ```
 
 

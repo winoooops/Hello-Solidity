@@ -26,3 +26,4 @@ Copy/
 2. [我知道这些都是概念，但你真的应该了解这些](./2-I-know-but-u-should-know-this/README.md)
 3. [数据类型](./3-data-types/README.md)
 4. [有趣的函数](./4-fun-fun-function/README.md)
+5. [接口和抽象合约](./5-interfaces-and-abstract-contracts/README.md)
