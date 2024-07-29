@@ -27,3 +27,5 @@ Copy/
 3. [数据类型](./3-data-types/README.md)
 4. [有趣的函数](./4-fun-fun-function/README.md)
 5. [接口和抽象合约](./5-interfaces-and-abstract-contracts/README.md)
+6. [错误和错误处理](./6-errors-and-error-handling/README.md)
+```
